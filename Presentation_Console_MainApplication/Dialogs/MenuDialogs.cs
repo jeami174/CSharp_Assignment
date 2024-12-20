@@ -2,17 +2,13 @@
 using Business.Interfaces;
 using Business.Models;
 using Business.Services;
+using Presentation_Console_MainApplication.Interfaces;
 
 namespace Presentation_Console_MainApplication.Dialogs;
 
-public class MenuDialogs
+public class MenuDialogs(IContactService contactService) : IMenuDialogs
 {
-    private readonly IContactService _contactService;
-
-    public MenuDialogs(IContactService contactService)
-    {
-        _contactService = contactService;
-    }
+    private readonly IContactService _contactService = contactService;
 
     public void ShowMenu()
     {
@@ -66,7 +62,7 @@ public class MenuDialogs
         Console.Clear();
         Console.WriteLine("----- Add a New Contact -----");
 
-        var form = CreateContactForm(); 
+        var form = CreateContactForm();
 
         try
         {
@@ -120,7 +116,7 @@ public class MenuDialogs
 
         var contacts = _contactService.GetContacts();
         if (!contacts.Any())
-        { 
+        {
             Console.WriteLine("No contacts found.");
             Console.WriteLine("Press any key to return to the main menu..");
             Console.ReadKey();
@@ -161,13 +157,13 @@ public class MenuDialogs
         switch (subOption)
         {
             case "1":
-                EditContact(contact); 
+                EditContact(contact);
                 break;
 
             case "2":
                 DeleteContact(contact);
                 break;
-                
+
             default:
                 InvalidOption();
                 break;
@@ -209,7 +205,7 @@ public class MenuDialogs
     {
         for (int i = 0; i < contacts.Count; i++)
         {
-            Console.WriteLine($"{i +1}. {contacts[i]}");
+            Console.WriteLine($"{i + 1}. {contacts[i]}");
         }
     }
 
