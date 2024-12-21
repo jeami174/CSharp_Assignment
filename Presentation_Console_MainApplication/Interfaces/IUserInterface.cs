@@ -1,7 +1,7 @@
 ﻿namespace Presentation_Console_MainApplication.Interfaces
 {
-    public interface IMenuDialogs
+    public interface IUserInterface
     {
-        void ShowMenu();
+        void ShowUI();
     }
 }
