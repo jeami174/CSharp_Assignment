@@ -29,13 +29,31 @@ public class ContactService : IContactService
 
     private void LoadContacts()
     {
-        _contacts = _contactRepository.GetContacts();
-        _contactsMap = _contacts.ToDictionary(c => c.Id);
+        try
+        {
+            _contacts = _contactRepository.GetContacts();
+            _contactsMap = _contacts.ToDictionary(c => c.Id);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed to load contacts: {ex.Message}");
+            _contacts = new List<ContactEntity>();
+            _contactsMap = new Dictionary<string, ContactEntity>();
+        }
+
+
     }
 
     private void SaveContacts()
     {
-        _contactRepository.SaveContacts(_contacts);
+        try
+        {
+            _contactRepository.SaveContacts(_contacts);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed to save contacts: {ex.Message}");
+        }
     }
 
     //I have used Microsoft´s documentation on ImmutableList to create this method:

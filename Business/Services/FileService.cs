@@ -18,23 +18,40 @@ public class FileService : IFileService
     {
         if (!string.IsNullOrEmpty(content))
         {
-            if (!Directory.Exists(_directoryPath))
+            try 
             {
-                Directory.CreateDirectory(_directoryPath);
-            }
+                if (!Directory.Exists(_directoryPath))
+                {
+                    Directory.CreateDirectory(_directoryPath);
+                }
 
-            File.WriteAllText(_filePath, content);
+                File.WriteAllText(_filePath, content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to save file: {ex.Message}");
+            }
+            
+
+            
         }
     }
 
     //Hämtar från filen
     public string GetContentFromFile()
     {
-        if (File.Exists(_filePath))
+        try
         {
-            return File.ReadAllText(_filePath);
+            if (File.Exists(_filePath))
+            {
+                return File.ReadAllText(_filePath);
+            }
         }
-
+        catch (Exception ex)
+        { 
+            Console.WriteLine($"Failed to read file: {ex.Message}");
+        }
+        
         return null!;
     }
 }
