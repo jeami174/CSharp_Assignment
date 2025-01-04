@@ -27,7 +27,6 @@ public class ContactService_Tests
     }
 
     [Fact]
-
     public void AddContact_ShouldAddContact_AndSave_AndbeRetrievable()
     {
         //Arrange
@@ -88,10 +87,8 @@ public class ContactService_Tests
     }
 
     [Fact]
-
     //Test som säkerställer att DeleteContact, sparar korrekt 
     //och verifierar att kontakten inte längre finns när vi hämtar listan.
-
     public void DeleteContact_ShouldRemoveContact_AndSave_AndBeRetrievable()
     {
         //Arrange
@@ -132,9 +129,7 @@ public class ContactService_Tests
     }
 
     [Fact]
-
     //Detta test verifierar att kontakten uppdateras korrekt och sparas via SaveContacts och att vi sedan kan hämta tillbaka den uppdaterade filen från GetContacts.
-
     public void UpdateContact_ShouldUpdateContact_AndSave_AndBeRetrievable()
     {
         //Arrange
@@ -215,7 +210,6 @@ public class ContactService_Tests
     }
 
     [Fact]
-
     public void GetContacts_ShouldReturnImmutableList()
     {
         //ARRANGE
