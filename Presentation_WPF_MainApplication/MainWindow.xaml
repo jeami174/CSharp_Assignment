@@ -11,7 +11,7 @@
         WindowStartupLocation="CenterScreen"
         
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="300">
+        Title="MainWindow" Height="600" Width="300">
     
     <Grid Margin="15">
         
