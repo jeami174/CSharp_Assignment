@@ -9,46 +9,38 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Presentation_WPF_MainApplication.ViewModels;
 
-public partial class ContactEditViewModel(IContactService contactService, IServiceProvider serviceProvider) : ObservableObject
+public partial class ContactDetailViewModel(IContactService contactService, IServiceProvider serviceProvider) : ObservableObject
 {
     private readonly IContactService _contactService = contactService;
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 
     [ObservableProperty]
-    private ContactRegistrationForm _contact = new();
+    private ContactEntity _contact = new();
 
-    private string _contactId = "";
-
-    public void Setup(ContactEntity contactEntity)
-    {
-        _contactId = contactEntity.Id;
-        Contact = new ContactRegistrationForm(contactEntity);
-    }
 
     [RelayCommand]
-    private void Save()
+    private void GoToEditView()
     {
-        _contactService.UpdateContact(_contactId, Contact);
+        var contactEditViewModel = _serviceProvider.GetService<ContactEditViewModel>();
+        contactEditViewModel.Setup(Contact);
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<ContactListViewModel>();
+        mainViewModel.CurrentViewModel = contactEditViewModel;
     }
 
     [RelayCommand]
     private void Delete()
     {
-        _contactService.DeleteContact(_contactId);
+        _contactService.DeleteContact(Contact.Id);
 
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<ContactListViewModel>();
     }
 
     [RelayCommand]
-    private void Cancel()
+    private void GoToListView()
     {
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<ContactListViewModel>();
     }
-
-
 }

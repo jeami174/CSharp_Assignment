@@ -26,4 +26,17 @@ public class ContactRegistrationForm
 
     [Required]
     public string City { get; set; } = null!;
+
+    public ContactRegistrationForm() { }
+
+    public ContactRegistrationForm(ContactEntity contactEntity)
+    {
+        FirstName = contactEntity.FirstName;
+        LastName = contactEntity.LastName;
+        Email = contactEntity.Email;
+        Phone = contactEntity.Phone;
+        StreetAddress = contactEntity.StreetAddress;
+        PostalCode = contactEntity.PostalCode;
+        City = contactEntity.City;
+    }
 }

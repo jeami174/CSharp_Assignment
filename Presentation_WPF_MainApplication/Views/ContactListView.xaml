@@ -27,7 +27,7 @@
             <Button Grid.Column="1" Command="{Binding GoToAddViewCommand}" Content="&#xE710;" FontFamily="Segoe MDL2 Assets" Padding="7 0" />
         </Grid>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Contacts}" Margin="0 20 0 0" HorizontalAlignment="Stretch">
+        <ListView Grid.Row="1" ItemsSource="{Binding Contacts}" Margin="0 20 0 0" HorizontalContentAlignment="Stretch">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="models:ContactEntity">
                     <Grid>
@@ -42,7 +42,11 @@
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <Button Content="&#xE712;" FontFamily="Sego MDL2 Assets" Padding="7 0" Background="Transparent" />
+                            <Button CommandParameter="{Binding .}" Command="{Binding DataContext.GoToDetailsViewCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                Content="&#xE712;" 
+                                FontFamily="Sego MDL2 Assets" 
+                                Padding="7 0" 
+                                Background="Transparent" />
                     </StackPanel>
 
                     </Grid>

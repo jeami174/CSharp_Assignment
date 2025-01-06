@@ -17,7 +17,6 @@
         
         <ContentControl Content="{Binding CurrentViewModel}">
             <ContentControl.Resources>
-            
                 <DataTemplate DataType="{x:Type viewmodels:ContactListViewModel}">
                     <views:ContactListView />
                 </DataTemplate>
@@ -27,7 +26,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:ContactEditViewModel}">
                     <views:ContactEditView />
                 </DataTemplate>
-
+                <DataTemplate DataType="{x:Type viewmodels:ContactDetailViewModel}">
+                    <views:ContactDetailView />
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
         
