@@ -2,17 +2,16 @@
 
 using Business.Interfaces;
 using Business.Models;
-using Business.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
+using Presentation_WPF_MainApplication.Interfaces;
 
 namespace Presentation_WPF_MainApplication.ViewModels;
 
-public partial class ContactEditViewModel(IContactService contactService, IServiceProvider serviceProvider) : ObservableObject
+public partial class ContactEditViewModel(IContactService contactService, INavigation navigation) : ObservableObject
 {
     private readonly IContactService _contactService = contactService;
-    private readonly IServiceProvider _serviceProvider = serviceProvider;
+    private readonly INavigation _navigation = navigation;
 
     [ObservableProperty]
     private ContactRegistrationForm _contact = new();
@@ -29,25 +28,20 @@ public partial class ContactEditViewModel(IContactService contactService, IServi
     private void Save()
     {
         _contactService.UpdateContact(_contactId, Contact);
-
-        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<ContactListViewModel>();
+        _navigation.ShowContactsList();
     }
 
     [RelayCommand]
     private void Delete()
     {
         _contactService.DeleteContact(_contactId);
-
-        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<ContactListViewModel>();
+        _navigation.ShowContactsList();
     }
 
     [RelayCommand]
     private void Cancel()
     {
-        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<ContactListViewModel>();
+        _navigation.ShowContactsList();
     }
 
 

@@ -5,6 +5,7 @@ using Business.Repositories;
 using Business.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Presentation_WPF_MainApplication.Interfaces;
 using Presentation_WPF_MainApplication.ViewModels;
 using Presentation_WPF_MainApplication.Views;
 
@@ -23,6 +24,7 @@ public partial class App : Application
                 services.AddSingleton<IContactRepository, ContactRepository>();
                 services.AddSingleton<IIdGenerator, GuidGenerator>();
                 services.AddSingleton<IContactService, ContactService>();
+                services.AddSingleton<INavigation, AppNavigation>();
 
                 services.AddSingleton<MainViewModel>();
                 services.AddSingleton<MainWindow>();

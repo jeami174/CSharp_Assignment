@@ -7,52 +7,102 @@
              xmlns:viewmodels="clr-namespace:Presentation_WPF_MainApplication.ViewModels"
              xmlns:models="clr-namespace:Business.Models;assembly=Business"
              d:DataContext="{d:DesignInstance Type=viewmodels:ContactListViewModel}"
-             
              mc:Ignorable="d" 
-             Background="White"
-             d:DesignHeight="600" d:DesignWidth="300">
-    <Grid Margin="15">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+             d:DesignHeight="700" d:DesignWidth="350">
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
+    <Border CornerRadius="0 0 15 15" Background="#30FFFFFF">
 
-            <TextBlock Grid.Column="0" Text="Contact List"  FontSize="20" FontWeight="Bold"/>
-            <Button Grid.Column="1" Command="{Binding GoToAddViewCommand}" Content="&#xE710;" FontFamily="Segoe MDL2 Assets" Padding="7 0" />
-        </Grid>
-
-        <ListView Grid.Row="1" ItemsSource="{Binding Contacts}" Margin="0 20 0 0" HorizontalContentAlignment="Stretch">
-            <ListView.ItemTemplate>
-                <DataTemplate DataType="models:ContactEntity">
-                    <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="{Binding FirstName}" />
-                        <TextBlock Text="{Binding LastName}" />
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Button CommandParameter="{Binding .}" Command="{Binding DataContext.GoToDetailsViewCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                Content="&#xE712;" 
-                                FontFamily="Sego MDL2 Assets" 
-                                Padding="7 0" 
-                                Background="Transparent" />
-                    </StackPanel>
-
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             
-    </Grid>
+            <TextBlock Grid.Row="0" 
+                       Text="Contact List"
+                       Style="{StaticResource HeadlineTextStyle}"/>
+
+
+            <ListView Grid.Row="1" 
+                      ItemsSource="{Binding Contacts}" 
+                      Margin="0 20 0 0" 
+                      Background="Transparent"
+                      BorderThickness="0"
+                      HorizontalContentAlignment="Stretch">
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Padding" Value="5"/>
+                        
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter/>
+                                    </Border>
+
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="models:ContactEntity">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Text="{Binding FirstName}"
+                                           Style="{DynamicResource TextStyle}"
+                                           VerticalAlignment="Center"
+                                           Grid.Column="0"
+                                           />
+                                <TextBlock Text="{Binding LastName}" 
+                                           Style="{DynamicResource TextStyle}"
+                                           VerticalAlignment="Center"
+                                           Grid.Column="1"/>
+                            </Grid>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button CommandParameter="{Binding .}" 
+                                        Command="{Binding DataContext.GoToDetailsViewCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Style="{DynamicResource MoreButtonStyle}"
+                                     />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Grid.Row="2"
+                    Command="{Binding GoToAddViewCommand}"
+                    Content="Add Contact"
+                    Margin="0 5 0 10"
+                    HorizontalAlignment="Stretch"
+                    Style="{StaticResource StandardButtonStyle}"
+            />
+        </Grid>
+    </Border>
 </UserControl>

@@ -4,33 +4,53 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation_WPF_MainApplication"
-        
         xmlns:views="clr-namespace:Presentation_WPF_MainApplication.Views"
         xmlns:viewmodels="clr-namespace:Presentation_WPF_MainApplication.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         WindowStartupLocation="CenterScreen"
-        
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="300">
-    
-    <Grid Margin="15">
-        
-        <ContentControl Content="{Binding CurrentViewModel}">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:ContactListViewModel}">
-                    <views:ContactListView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:ContactAddViewModel}">
-                    <views:ContactAddView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:ContactEditViewModel}">
-                    <views:ContactEditView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:ContactDetailViewModel}">
-                    <views:ContactDetailView />
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
-        
-    </Grid>
+        Title="Contact Application" Height="770" Width="350">
+
+    <Border CornerRadius="15">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#5B3B70" Offset="0" />
+                <GradientStop Color="#8C66A1" Offset="0.5" />
+                <GradientStop Color="#D1B9E1" Offset="1" />
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid Margin="10" >
+            <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="Transparent" MouseDown="Grid_MouseDown" >
+            <Button Style="{StaticResource ExitButtonStyle}"
+                    Click="ExitButton_Click"
+                    Margin="0,0,0,0"/>
+        </Grid>
+
+            <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type viewmodels:ContactListViewModel}">
+                        <views:ContactListView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewmodels:ContactAddViewModel}">
+                        <views:ContactAddView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewmodels:ContactEditViewModel}">
+                        <views:ContactEditView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewmodels:ContactDetailViewModel}">
+                        <views:ContactDetailView />
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+        </Grid>
+    </Border>
 </Window>

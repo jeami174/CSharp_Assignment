@@ -3,23 +3,22 @@ using Business.Interfaces;
 using Business.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
-using System.Windows.Input;
+using Presentation_WPF_MainApplication.Interfaces;
 
 namespace Presentation_WPF_MainApplication.ViewModels;
 
 public partial class ContactListViewModel : ObservableObject
 {
     private readonly IContactService _contactService;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly INavigation _navigation;
 
     [ObservableProperty]
     private ObservableCollection<ContactEntity> _contacts = [];
 
-    public ContactListViewModel(IContactService contactService, IServiceProvider serviceProvider)
+    public ContactListViewModel(IContactService contactService, INavigation navigation)
     {
         _contactService = contactService;
-        _serviceProvider = serviceProvider;
+        _navigation = navigation;
 
         _contacts = new ObservableCollection<ContactEntity>(_contactService.GetContacts());
     }
@@ -27,17 +26,12 @@ public partial class ContactListViewModel : ObservableObject
     [RelayCommand]
     private void GoToAddView()
     {
-        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<ContactAddViewModel>();
+        _navigation.ShowAddContact();
     }
 
     [RelayCommand]
     private void GoToDetailsView(ContactEntity contactEntity) 
     {
-        var contactDetailViewModel = _serviceProvider.GetRequiredService<ContactDetailViewModel>();
-        contactDetailViewModel.Contact = contactEntity;
-
-        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = contactDetailViewModel;
+        _navigation.ShowContactDetails(contactEntity);
     }
 }
