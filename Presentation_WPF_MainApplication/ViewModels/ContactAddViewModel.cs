@@ -6,6 +6,9 @@ using Presentation_WPF_MainApplication.Interfaces;
 
 namespace Presentation_WPF_MainApplication.ViewModels;
 
+/// <summary>
+/// View model for adding a new contact.
+/// </summary>
 public partial class ContactAddViewModel(IContactService contactService, INavigation navigation) : ObservableObject
 {
     private readonly IContactService _contactService = contactService;

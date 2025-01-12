@@ -7,8 +7,9 @@ using Presentation_Console_MainApplication.Interfaces;
 
 namespace Presentation_Console_MainApplication;
 
-//Innehåller bara interaktion med servicen och skapar dialoger
-
+/// <summary>
+/// Console-based user interface for the contact management application.
+/// </summary>
 public class ConsoleUserInterface(IContactService contactService) : IUserInterface, IMainMenuOperations
 {
     private readonly IContactService _contactService = contactService;
@@ -21,7 +22,9 @@ public class ConsoleUserInterface(IContactService contactService) : IUserInterfa
         }
     }
 
-    // Delegates for dialog actions
+    // Delegates for dialog actions.
+    // These will be called from the dialog classes when the user interaction is complete.
+    // The commands will be forwarded to the contact service.
 
     private void OnAddContact(ContactRegistrationForm form)
     {
@@ -62,7 +65,8 @@ public class ConsoleUserInterface(IContactService contactService) : IUserInterfa
         }
     }
 
-    // Main menu actions
+    // Main menu actions (IMainMenuOperations).
+    // These will create and show the appropriate dialog when the user selects an option in the main menu.
 
     public void MenuOptionAddContact()
     {

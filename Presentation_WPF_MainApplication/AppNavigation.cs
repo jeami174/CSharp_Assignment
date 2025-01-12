@@ -10,6 +10,9 @@ public class AppNavigation(IServiceProvider serviceProvider) : INavigation
 {
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 
+    /// <summary>
+    /// Helper method to change the current view in the main window.
+    /// </summary>
     private void ChangeView(ObservableObject viewModel)
     {
         var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();

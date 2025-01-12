@@ -2,6 +2,9 @@
 
 namespace Business.Services;
 
+/// <summary>
+/// Manages a local file.
+/// </summary>
 public class FileService : IFileService
 {
     private readonly string _directoryPath;
@@ -13,7 +16,6 @@ public class FileService : IFileService
         _filePath = Path.Combine(_directoryPath, fileName);
     }
 
-    //Spara till filen
     public void SaveContentToFile(string content)
     {
         if (!string.IsNullOrEmpty(content))
@@ -31,13 +33,9 @@ public class FileService : IFileService
             {
                 Console.WriteLine($"Failed to save file: {ex.Message}");
             }
-            
-
-            
         }
     }
 
-    //Hämtar från filen
     public string GetContentFromFile()
     {
         try

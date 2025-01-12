@@ -5,9 +5,9 @@ namespace Business.Tests.Services;
 
 public class FileService_Tests
 {
-    //Här testas metoderna som rör filhanteringen.
-    //Jag använder en mockad filsystem-approach för att undvika att skriva till det verkliga 
-    //filsystemet under testning.
+    // Here, the methods related to file handling are being tested.
+    // I use a mocked file system approach to avoid writing to the actual 
+    // file system during testing.
 
     private readonly string _testDirectory = "TestData";
     private readonly string _testFile = "test.json";
@@ -17,7 +17,7 @@ public class FileService_Tests
     {
         _fileServiceMock = new Mock<FileService>(_testDirectory, _testFile) { CallBase = true };
 
-        //Säkerställer att testkatalogen rensas före varje test
+        // Ensures that the test directory is cleared before each test
         if (Directory.Exists(_testDirectory))
         { Directory.Delete(_testDirectory, true); }
     }

@@ -2,6 +2,9 @@
 
 namespace Presentation_Console_MainApplication.Dialogs
 {
+    /// <summary>
+    /// Dialog for the main menu in the user interface.
+    /// </summary>
     internal class MainMenuDialog
     {
         public static void Show(IMainMenuOperations handler)

@@ -1,6 +1,9 @@
 ﻿
 namespace Business.Models;
 
+/// <summary>
+/// Represents an immutable contact entity with personal and address details.
+/// </summary>
 public readonly struct ContactEntity
 {
     public string Id { get; init; }

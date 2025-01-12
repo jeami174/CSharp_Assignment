@@ -6,23 +6,19 @@ using Moq;
 
 namespace Business.Tests.Services;
 
-//Dessa tester, testar logiken i ContactService dvs hantering av kontakterna.
+// These tests verify the logic in ContactService, specifically contact management operations.
 
 public class ContactService_Tests
 {
     private readonly Mock<IContactRepository> _contactRepositoryMock;
-    private readonly Mock<IIdGenerator> _idGeneratorMock; //Väljer att mocka ID-generatorn här för att fullt utt kunna skapa realistiska test
+    private readonly Mock<IIdGenerator> _idGeneratorMock; // Mocking the ID generator to create realistic tests
     private readonly IContactService _contactService;
 
     public ContactService_Tests()
     {
         _contactRepositoryMock = new Mock<IContactRepository>();
         _idGeneratorMock = new Mock<IIdGenerator>();
-
-        //Denna del av koden mockar GetContacts för att retunera en tom lista initialt
         _contactRepositoryMock.Setup(cr => cr.GetContacts()).Returns(new List<ContactEntity>());
-
-        //Skapar ContactSErvice med mockade beroenden
         _contactService = new ContactService(_contactRepositoryMock.Object, _idGeneratorMock.Object);
     }
 
@@ -54,10 +50,10 @@ public class ContactService_Tests
             form.City
         );
 
-        //Mocka ID-generering
+        // Mock ID generation
         _idGeneratorMock.Setup(id => id.NewId()).Returns(generatedId);
 
-        //Mock för att lagra sparade kontakter
+        // Mock to track saved contacts
         List<ContactEntity> savedContacts = new();
 
         _contactRepositoryMock.Setup(cr => cr.SaveContacts(It.IsAny<List<ContactEntity>>()))
@@ -66,12 +62,9 @@ public class ContactService_Tests
         //Act
         _contactService.AddContact(form);
 
-        //ASSERT
-
-        //Verifiera att SaveContacts anropades
+        //Assert
+        // Verify that SaveContacts was called and contact is in the saved list
         _contactRepositoryMock.Verify(cr => cr.SaveContacts(It.IsAny<List<ContactEntity>>()), Times.Once);
-
-        //Verifiera att kontakten finns i den sparade listan
 
         Assert.Single(savedContacts);
         Assert.Equal(expectedContact, savedContacts.First());
@@ -87,49 +80,41 @@ public class ContactService_Tests
     }
 
     [Fact]
-    //Test som säkerställer att DeleteContact, sparar korrekt 
-    //och verifierar att kontakten inte längre finns när vi hämtar listan.
     public void DeleteContact_ShouldRemoveContact_AndSave_AndBeRetrievable()
     {
-        //Arrange
+        // Arrange: Start with a list containing one contact
         var contact = new ContactEntity("123", "Jane", "Doe", "jane.doe@example.com", "987654321", "Minor Street", "67890", "Stockholm");
 
-        //Starta med en lista som innehåller en kontakt
         List<ContactEntity> contacts = new() { contact };
 
-        //Mock för att retunera initial kontaktlista
+        // Mock to return initial contact list
         _contactRepositoryMock.Setup(cr => cr.GetContacts()).Returns(contacts);
 
-        //Lista för att spara uppdaterade kontakter
+        // Mock to track updated contacts
         List<ContactEntity> savedContacts = new();
         _contactRepositoryMock.Setup(cr => cr.SaveContacts(It.IsAny<List<ContactEntity>>()))
             .Callback<List<ContactEntity>>(updatedContacts => savedContacts = updatedContacts);
 
-        //Återskapa ContactService för att ladda kontaktlistan från början
+        // Reinitialize ContactService to reload contact list
         var contactService = new ContactService(_contactRepositoryMock.Object, Mock.Of<IIdGenerator>());
 
-        //Act - ta bort kontakten
-
+        // Act: Remove the contact
         contactService.DeleteContact("123");
 
-        //Assert - kontrollera att saveContacts anropades exakt en gång
+        // Assert: Verify SaveContacts was called and the list is empty after deletion
         _contactRepositoryMock.Verify(cr => cr.SaveContacts(It.IsAny<List<ContactEntity>>()), Times.Once);
 
-        //Assert - kontrollera om listan är tom efter radering
         Assert.Empty(savedContacts);
 
-        //Mock för att simulera att GetContacts returnerar den uppdaterade listan
         _contactRepositoryMock.Setup(cr => cr.GetContacts()).Returns(savedContacts);
 
-        //Act - hämta kontakterna igen
         var result = contactService.GetContacts();
 
-        //Assert - verifiera att kontakten inte längre finns
+        // Assert: Verify the contact is no longer retrievable
         Assert.Empty(result);
     }
 
     [Fact]
-    //Detta test verifierar att kontakten uppdateras korrekt och sparas via SaveContacts och att vi sedan kan hämta tillbaka den uppdaterade filen från GetContacts.
     public void UpdateContact_ShouldUpdateContact_AndSave_AndBeRetrievable()
     {
         //Arrange
@@ -145,18 +130,13 @@ public class ContactService_Tests
             "Stockholm"
         );
 
-        //Startar testet med en lista som innehåller en kontakt
         List<ContactEntity> contacts = new() { existingContact };
 
-        //Mock för att retunera initial kontaktlista
         _contactRepositoryMock.Setup(cr => cr.GetContacts()).Returns(contacts);
 
-        //Lista för att lagra sparade kontakter
         List<ContactEntity> savedContacts = new();
         _contactRepositoryMock.Setup(cr => cr.SaveContacts(It.IsAny<List<ContactEntity>>()))
             .Callback<List<ContactEntity>>(updatadeContacts => savedContacts = updatadeContacts);
-
-        //Skapar en uppdaterat kontaktformulär
 
         var form = new ContactRegistrationForm
         {
@@ -180,30 +160,24 @@ public class ContactService_Tests
             form.City
         );
 
-
-
-        //Skapa ContactService för att ladda kontaktlistan
         var contactService = new ContactService(_contactRepositoryMock.Object, Mock.Of<IIdGenerator>());
 
-        // Act - Uppdatera kontakten
+        // Act: Update the contact
         contactService.UpdateContact("123", form);
 
-        //Assert - Verifierar att SaveContacts har anropats exakt en gång
+        // Assert: Verify SaveContacts was called and the contact is updated
         _contactRepositoryMock.Verify(cr => cr.SaveContacts(It.IsAny<List<ContactEntity>>()), Times.Once);
         
-        //Assert - Kontrollerar att listan innehåller den uppdaterade kontakten
         Assert.Single(savedContacts);
         var updatedContact = savedContacts.First();
 
         Assert.Equal(expectedContact, updatedContact);
 
-        //Använder Mock för att simulera att GetContacts retunerar den uppdaterade listan
         _contactRepositoryMock.Setup(cr => cr.GetContacts()).Returns(savedContacts);
 
-        //Act - hämta kontakterna igen
         var result = contactService.GetContacts();
 
-        //Assert - verifierar att den uppdaterade kontakten finns med
+        // Assert: Verify the updated contact is retrievable
         Assert.Single(result);
         Assert.Equal(expectedContact, result[0]);
 
@@ -212,7 +186,7 @@ public class ContactService_Tests
     [Fact]
     public void GetContacts_ShouldReturnImmutableList()
     {
-        //ARRANGE
+        //Arrange
         var expectedContact = new ContactEntity(
             "123",
             "Clark",
@@ -230,14 +204,13 @@ public class ContactService_Tests
 
         var contactService = new ContactService(_contactRepositoryMock.Object, Mock.Of<IIdGenerator>());
 
-        //ACT
+        // Act: Retrieve contacts
 
         var result = contactService.GetContacts();
 
-        //Assert
         Assert.Single(result);
 
-        //Kontrollerar att resultatet är av tupen ImmutableList
+        // Assert: Verify the result is an ImmutableList and contains the expected contact
         Assert.IsType<ImmutableList<ContactEntity>>(result);
 
        Assert.Equal(expectedContact, result.First());

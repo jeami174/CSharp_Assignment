@@ -6,10 +6,10 @@ namespace Business.Tests.Helpers;
 public class GuidGenerator_Tests
 {
 
-    //Jag kommer inte att mocka GuidGenerator här då vi kan testa den direkt.
-    //Däremot mockas IIdGenerator när jag testar andra klasser som är beroende av den - se tex ContactService
-    //Här kommer jag att testa att NewId() retunerar en giltlig GUID-Sträng och att varje anrop ger ett unikt värde
-    
+    // I will not mock GuidGenerator here as it can be tested directly.
+    // However, I mock IIdGenerator when testing other classes that depend on it – see, for example, ContactService.
+    // Here, I will test that NewId() returns a valid GUID string and that each call generates a unique value.
+
 
     [Fact]
     public void NewID_ShouldReturn_ValidGuidString()

@@ -2,6 +2,9 @@
 
 namespace Presentation_Console_MainApplication.Dialogs
 {
+    /// <summary>
+    /// Console dialog for selecting a contact from a list.
+    /// </summary>
     internal class SelectContactDialog
     {
         public static int Show(IList<ContactEntity> contacts)

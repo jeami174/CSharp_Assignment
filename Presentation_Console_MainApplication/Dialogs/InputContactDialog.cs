@@ -2,6 +2,9 @@
 
 namespace Presentation_Console_MainApplication.Dialogs
 {
+    /// <summary>
+    /// Console dialog for inputting contact information.
+    /// </summary>
     internal class InputContactDialog
     {
         public static ContactRegistrationForm Show()

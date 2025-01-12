@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Business.Models;
 
+/// <summary>
+/// Represents a form for registering or updating contact information.
+/// </summary>
 public class ContactRegistrationForm
 {
     [Required]

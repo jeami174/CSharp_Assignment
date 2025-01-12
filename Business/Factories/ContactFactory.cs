@@ -5,6 +5,9 @@ namespace Business.Factories;
 
 public static class ContactFactory
 {
+    /// <summary>
+    /// Returns a new ContactEntity based on provided ContactRegistrationForm and ID.
+    /// </summary>
     public static ContactEntity Create(ContactRegistrationForm form, string id)
     {
         return new ContactEntity(

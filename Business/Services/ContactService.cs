@@ -1,15 +1,10 @@
 ﻿using System.Collections.Immutable;
 using System.Diagnostics;
 using Business.Factories;
-using Business.Helpers;
 using Business.Interfaces;
 using Business.Models;
 
 namespace Business.Services;
-
-//Här skulle jag kunna bryta upp ContactService i separata tjänster för att strikt följa SRP
-//Jag skulle också kunna använda en factroy eller stratefi för skapandet av kontakter för bättre OCP
-
 
 public class ContactService : IContactService
 {
@@ -27,11 +22,17 @@ public class ContactService : IContactService
         LoadContacts();
     }
 
+    /// <summary>
+    /// Load contacts from the repository into memory.
+    /// </summary>
     private void LoadContacts()
     {
         try
         {
             _contacts = _contactRepository.GetContacts();
+
+            // Map the contacts by ID in a dictionary for quick access.
+            // UpdateContact and DeleteContact methods uses ID only to find the contact.
             _contactsMap = _contacts.ToDictionary(c => c.Id);
         }
         catch (Exception ex)
@@ -40,10 +41,11 @@ public class ContactService : IContactService
             _contacts = new List<ContactEntity>();
             _contactsMap = new Dictionary<string, ContactEntity>();
         }
-
-
     }
 
+    /// <summary>
+    /// Saves the current list of contacts to the repository 
+    /// </summary>
     private void SaveContacts()
     {
         try
@@ -56,12 +58,12 @@ public class ContactService : IContactService
         }
     }
 
-    //I have used Microsoft´s documentation on ImmutableList to create this method:
-    // https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutablelist-1?view=net-9.0
-    //ImmutableList is used to ensure that the returned list of ContactEntity objects is immutable,
-    //providing safety against unintended modifications 
     public ImmutableList<ContactEntity> GetContacts()
     {
+        // I have used Microsoft´s documentation on ImmutableList to create this method:
+        // https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutablelist-1?view=net-9.0
+        // ImmutableList is used to ensure that the returned list of ContactEntity objects is immutable,
+        // providing safety against unintended modifications 
         return _contacts.ToImmutableList();
     }
 

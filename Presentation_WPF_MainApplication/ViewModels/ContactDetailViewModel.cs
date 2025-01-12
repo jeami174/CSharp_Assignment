@@ -8,6 +8,9 @@ using Presentation_WPF_MainApplication.Interfaces;
 
 namespace Presentation_WPF_MainApplication.ViewModels;
 
+/// <summary>
+/// View model for the contact detail view.
+/// </summary>
 public partial class ContactDetailViewModel(IContactService contactService, INavigation navigation) : ObservableObject
 {
     private readonly IContactService _contactService = contactService;

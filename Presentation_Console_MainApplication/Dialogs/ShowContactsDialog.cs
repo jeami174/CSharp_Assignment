@@ -2,6 +2,9 @@
 
 namespace Presentation_Console_MainApplication.Dialogs
 {
+    /// <summary>
+    /// Console dialog for displaying all contacts in list.
+    /// </summary>
     internal class ShowContactsDialog
     {
         public static void Show(IList<ContactEntity> contacts)

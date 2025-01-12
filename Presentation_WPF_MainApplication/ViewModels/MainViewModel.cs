@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Presentation_WPF_MainApplication.ViewModels;
 
+/// <summary>
+/// The main view model for the application.
+/// </summary>
 public partial class MainViewModel : ObservableObject
 {
     private readonly IServiceProvider _serviceProvider;

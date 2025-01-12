@@ -2,8 +2,15 @@
 
 namespace Presentation_Console_MainApplication.Dialogs
 {
+    /// <summary>
+    /// Delegate for the edit contact dialog (EditContactDialog).
+    /// Is called when the user has provided the contact information to be updated.
+    /// </summary>
     internal delegate void EditContactDialogDelegate(string id, ContactRegistrationForm form);
 
+    /// <summary>
+    /// Console dialog for editing a contact.
+    /// </summary>
     internal class EditContactDialog
     {
         static public void Show(IList<ContactEntity> contacts, EditContactDialogDelegate callback)

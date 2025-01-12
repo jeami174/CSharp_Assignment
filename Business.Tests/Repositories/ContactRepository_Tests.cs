@@ -8,9 +8,9 @@ using Moq;
 
 namespace Business.Tests.Repositories;
 
-//Dessa tester testar serialization och deserialization, exeptions när IFileService misslyckas
-//Jag tycker det är viktigt att testa både contactservice (hög nivå), ContactRepository (mellannivån) och fileservice (låg nivå)
-//I olika separata filer för att säkerställa separation of Concerns i testningen
+// These tests verify serialization and deserialization, as well as exceptions when IFileService fails.
+// I believe it is important to test ContactService (high level), ContactRepository (mid level), and FileService (low level)
+// in separate test files to ensure separation of concerns in testing.
 
 public class ContactRepository_Tests
 {
